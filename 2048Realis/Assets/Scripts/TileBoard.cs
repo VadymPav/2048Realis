@@ -1,14 +1,20 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class TileBoard : MonoBehaviour
 {
-    public GameManager gameManager;
-    public Tile tilePrefab;
-    public TileState[] tileStates;
+    [Inject]
+    private GameManager gameManager;
+    [Inject]
     private TileGrid _grid;
+    [Inject]
+    private Tile tilePrefab;
+    [Inject]
+    private DiContainer _diContainer;
+    public TileState[] tileStates;
+    
     private List<Tile> _tiles;
     
     private Vector2 startPos;
@@ -18,7 +24,6 @@ public class TileBoard : MonoBehaviour
 
     private void Awake()
     {
-        _grid = GetComponentInChildren<TileGrid>();
         _tiles = new List<Tile>(9);
     }
 
@@ -37,7 +42,8 @@ public class TileBoard : MonoBehaviour
     
     public void CreateTile()
     {
-        Tile tile = Instantiate(tilePrefab, _grid.transform);
+        GameObject tileTemp = _diContainer.InstantiatePrefab(tilePrefab, _grid.transform);
+        Tile tile = tileTemp.GetComponent<Tile>();
         tile.SetState(tileStates[0], 2);
         tile.Spawn(_grid.GetRandomEmptyCell());
         _tiles.Add(tile);

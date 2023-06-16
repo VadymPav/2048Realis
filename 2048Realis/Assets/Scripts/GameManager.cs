@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
+using Zenject;
 using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public TileBoard board;
+    [Inject]
+    private TileBoard board;
+    
     public CanvasGroup gameOver;
 
     public TextMeshProUGUI scoreText;

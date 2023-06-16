@@ -20,7 +20,6 @@ public class TileBoard : MonoBehaviour
     private Vector2 startPos;
     public int pixelDistToDetect = 20;
     private bool fingerDown;
-    private bool waiting;
 
     private void Awake()
     {
@@ -225,10 +224,7 @@ public class TileBoard : MonoBehaviour
 
     private IEnumerator WaitForChanges()
     {
-        waiting = true;
         yield return new WaitForSeconds(0.1f);
-        waiting = false;
-
         foreach (var tile in _tiles)
         {
             tile.Locked = false;
